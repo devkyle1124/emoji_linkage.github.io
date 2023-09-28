@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> </title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+   
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <script>
+        var firebaseConfig = {
+    apiKey: "AIzaSyD_M3UPAS2NlENSx7xFcMFupGUHWCGQVN8",
+authDomain: "mydatabase-a164d.firebaseapp.com",
+projectId: "mydatabase-a164d",
+storageBucket: "mydatabase-a164d.appspot.com",
+messagingSenderId: "823044991417",
+appId: "1:823044991417:web:7db70193bd954bd6ceae68"
+};
+
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+    </script>
+
+
+<div id="iframe-container">
+
+    <div id="loading-indicator">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">LOADING...</div>
+    </div>
+    
+    <iframe id="my-iframe" style="width: 100%; height: 100vh; border: none;"></iframe>
+</div>
+
+<script>
+
+var docRef = db.collection("SEPTEMBER").doc("new app");
+var iframe = document.getElementById("my-iframe");
+var loadingIndicator = document.getElementById("loading-indicator");
+
+function setIframeSource(val, game) {
+
+    loadingIndicator.style.display = "flex";
+
+    if (val) {
+        iframe.src = game;
+    } else {
+        iframe.src = "dist/index.html";
+    }
+}
+
+iframe.onload = function () {
+    loadingIndicator.style.display = "none";
+};
+
+docRef.onSnapshot(function (doc) {
+    if (doc.exists) {
+        var data = doc.data();
+        var val = data.value;
+        var game = data.myGame;
+
+      
+        setIframeSource(val, game);
+    } else {
+
+    }
+}, function (error) {
+
+});
+
+</script>
+
+
+</body>
+</html>

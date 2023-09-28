@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <!-- Your Firebase configuration -->
+   
+    
+    <style>
+                body {
+            background-image: url('img/splash02.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .navbar-image {
+            position: fixed;
+            top: 10%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 400px; /* Adjust the width as needed */
+            z-index: 1; /* Ensure the image is above other elements */
+        }
+        .button-container {
+            text-align: center;
+            margin-bottom: 150px;
+        }
+        #startButton, #aboutButton {
+            margin: 5px;
+            padding: 20px 0; /* Adjust padding for better alignment */
+            font-size: 18px;
+            width: 100%; /* Make both buttons have the same width */
+        }
+    </style>
+   
+</head>
+<body>
+    <script>
+    var firebaseConfig = {
+    apiKey: "AIzaSyD_M3UPAS2NlENSx7xFcMFupGUHWCGQVN8",
+authDomain: "mydatabase-a164d.firebaseapp.com",
+projectId: "mydatabase-a164d",
+storageBucket: "mydatabase-a164d.appspot.com",
+messagingSenderId: "823044991417",
+appId: "1:823044991417:web:7db70193bd954bd6ceae68"
+};
+
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+
+    </script>
+
+    <img src="img/navbar01.png" alt="Title" class="navbar-image">
+
+    <div class="container text-center button-container">
+        <div class="row">
+            <div class="col">
+                <button id="startButton" class="btn btn-primary" href="MyWebApp.html">Start Game</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button id="aboutButton" class="btn btn-primary" href="MyAbout.html">About</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // Reference to your Firestore document
+        const docRef = db.collection("SEPTEMBER").doc("new app");
+
+        // Reference to your HTML buttons
+        const startButton = document.getElementById("startButton");
+        const aboutButton = document.getElementById("aboutButton");
+
+        // Listen for changes in Firestore document
+        docRef.onSnapshot((doc) => {
+            const data = doc.data();
+
+            // Check the value field in Firestore
+            if (data && data.value === true) {
+                // If value is true, update button text from Firestore fields
+                startButton.innerText = data.b1;
+                aboutButton.innerText = data.b2;
+
+                // Add click event listeners with redirection to MyWebApp.html
+                startButton.addEventListener("click", () => {
+                    window.location.href = "MyWebApp.html";
+                });
+
+                aboutButton.addEventListener("click", () => {
+                    window.location.href = "MyWebApp.html";
+                });
+            }
+            
+            else {
+                // If value is false, revert button text and change click behavior
+                startButton.innerText = "Start Game";
+                aboutButton.innerText = "About";
+
+                // Add click event listeners with redirection to MyWebApp.html and MyAbout.html
+                startButton.addEventListener("click", () => {
+                    window.location.href = "MyWebApp.html";
+                });
+
+                aboutButton.addEventListener("click", () => {
+                    window.location.href = "MyAbout.html";
+                });
+            }
+        });
+    </script>
+</body>
+</html>
